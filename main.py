@@ -17,6 +17,11 @@ mysql = MySQL(app)
 @app.route("/")
 def login():
     return render_template('login.html')
+    
+#Carlos page
+ @app.route("/carlos")
+ def carlos():
+ 	return render_template('carlos.html')
 
 # Main donation landing page, reads and writes data to donation table
 @app.route("/Donation", methods=['GET', 'POST'])

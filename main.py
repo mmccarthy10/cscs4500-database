@@ -21,8 +21,8 @@ def login():
 #Carlos page
 @app.route("/carlos")
 def carlos():
-	example = "Hello"
- 	return render_template('carlos.html', example)
+    example = "Hello"
+    return render_template('carlos.html', example)
 
 # Main donation landing page, reads and writes data to donation table
 @app.route("/Donation", methods=['GET', 'POST'])

@@ -22,7 +22,7 @@ def login():
 @app.route("/carlos")
 def carlos():
     example = "Hello"
-    return render_template('carlos.html', example)
+    return render_template('carlos.html', example=example)
 
 # Main donation landing page, reads and writes data to donation table
 @app.route("/Donation", methods=['GET', 'POST'])
@@ -45,4 +45,4 @@ def donation_main():
 
 # Run server, visible online and refreshes with new code
 if __name__ == "__main__":
-    app.run(host = "0.0.0.0",debug = True)
+    app.run(debug = True)

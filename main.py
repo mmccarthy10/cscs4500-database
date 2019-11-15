@@ -24,6 +24,12 @@ def carlos():
     example = "Hello"
     return render_template('carlos.html', example=example)
 
+#Ben page
+@app.route("/Ben")
+def Ben():
+    variable = "Hello World!"
+    return render_template('ben.html', variable=variable)
+
 # Main donation landing page, reads and writes data to donation table
 @app.route("/Donation", methods=['GET', 'POST'])
 def donation_main():

@@ -17,7 +17,11 @@ mysql = MySQL(app)
 @app.route("/")
 def login():
     return render_template('login.html')
-
+#Andres page
+@app.route("/andres")
+def andres():
+    example = "hello2"
+    return render_template('andres.html', example=example)
 #Carlos page
 @app.route("/carlos")
 def carlos():

@@ -1,11 +1,60 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
-	<title>hello this is andres page </title>
-</head>
-<body>
-<h1>Andres</h1>
-	<p>{{ example }}</p>
-</body>
+	<head>
+	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+	   <title>Charity Volunteer Landing</title>
+	</head>
+   <body>
+      <h1>Hello, THis is the Acount Table!</h1>
+	  <h2>Enter a new account:</h2>
+      <form action = "/Donation" method = "post">
+          name:
+		 <input type = "text" name = "name" />
+
+         Password:
+		 <input type = "text" name = "password" />
+
+         Email:
+		 <input type = "text" name = "email" />
+
+		 address:
+    <input type = "text" name = "address" />
+
+		ID:
+   <input type = "text" name = "ID" />
+
+	 type:
+  <input type = "text" name = "type" />
+
+         <input type = "submit" value = "Add" /><br/>
+	  </form>
+	  <h2>Current account</h2>
+	  <table border = 1>
+		<tr>
+			<td><b>Name</b></td>
+			<td><b>Password</b></td>
+			<td><b>Email</b></td>
+			<td><b>Address</b></td>
+			<td><b>ID</b></td>
+			<td><b>Type</b></td>
+			<td><b>Delete?</b></td>
+		</tr>
+		{% for row in data %}
+		<tr>
+			<td>{{ row.Name }}</td>
+			<td>{{ row.password }}</td>
+			<td>{{ row.Email }}</td>
+			<td>{{ row.address }}</td>
+			<td>{{ row.ID }}</td>
+			<td>{{ row.type }}</td>
+			<td><form action="/Accounts" method="post">
+					<input type="hidden" name="delete" value="{{ row.AccountsId }}" />
+					<input type="submit" value="Delete"/>
+				</form>
+			</td>
+		</tr>
+		{% endfor %}
+	  </table>
+	  <br/>
+	  <a href='../'>Logout</a>
+   </body>
 </html>

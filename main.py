@@ -18,10 +18,22 @@ mysql = MySQL(app)
 def login():
     return render_template('login.html')
 #Andres page
-@app.route("/andres")
-def andres():
-    example = "hello2"
-    return render_template('andres.html', example=example)
+@app.route("/Accounts", methods=['GET', 'POST'])
+def accounts_main():
+    if request.method == "POST":
+        details = request.form
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        
+        if "name" in details:
+            cursor.execute('INSERT INTO accounts (Name, Password,Email, Address, ID, Type) VALUES("' + details['name'] + '", "' + details['password'] + '","' + details['email'] + '", "' + details['address'] + '", "' + details['ID'] + '", "' + details['Type'] +'");')
+
+        mysql.connection.commit()
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM accounts;')
+    data = cursor.fetchall()
+
+    return render_template('andres.html', data=data)
 #Carlos page
 @app.route("/carlos")
 def carlos():

@@ -34,6 +34,16 @@ def Ben():
     variable = "Hello World!"
     return render_template('ben.html', variable=variable)
 
+#Outgoing Donation page by carlos
+@app.route("/outgoing-donation")
+def outgoing_donation():
+    example = "out"
+    return render_template('outgoing.html', example=example)
+#Incoming donation page by Carlos
+@app.route("/incoming-donation")
+def incoming_donation():
+    example = "in"
+    return render_template('incoming.html', example=example)
 # Main donation landing page, reads and writes data to donation table
 @app.route("/Donation", methods=['GET', 'POST'])
 def donation_main():

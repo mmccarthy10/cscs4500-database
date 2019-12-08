@@ -1,5 +1,5 @@
 # Import files
-from flask import Flask,request,render_template
+from flask import Flask,request,render_template,redirect,url_for
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
@@ -17,22 +17,6 @@ mysql = MySQL(app)
 @app.route("/")
 def login():
     return render_template('login.html')
-#Andres page
-@app.route("/andres")
-def andres():
-    example = "hello2"
-    return render_template('andres.html', example=example)
-#Carlos page
-@app.route("/carlos")
-def carlos():
-    example = "Hello"
-    return render_template('carlos.html', example=example)
-
-#Ben page
-@app.route("/Ben")
-def Ben():
-    variable = "Hello World!"
-    return render_template('ben.html', variable=variable)
 
 #Outgoing Donation page by carlos
 @app.route("/outgoing-donation")
@@ -63,6 +47,34 @@ def donation_main():
 
     return render_template('donations.html', data=data)
 
+# Page for editing incoming donation entries
+@app.route("/EditInDonation", methods=['GET', 'POST'])
+def edit_indonation():
+    if request.method == "POST":
+        details = request.form
+
+        # Populate edit with details
+        if "edit" in details:
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            print ("Editing " + details ['edit'])
+            cursor.execute('SELECT * FROM donation WHERE donationId=' + details['edit'] + ';')
+            data = cursor.fetchall()
+            return render_template('edit_indonation.html', data=data)
+
+        # Submit edit to database
+        if "name" in details:
+            print ("Confirming " + details['id'])
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('UPDATE donation SET donationName="' + details['name'] + '", quantity=' + details['qty'] + ', donator="' + details['donator'] + '", date="' + details['date'] + '" WHERE donationId=' + details['id'] + ';')
+            mysql.connection.commit()
+            return redirect(url_for("donation_main"))
+
+        # Redirect to main page if no entry picked
+        else:
+            return redirect(url_for("donation_main"))
+
+    return redirect(url_for("donation_main"))
+
 # Run server, visible online and refreshes with new code
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = True, host="0.0.0.0")

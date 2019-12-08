@@ -1,0 +1,29 @@
+<html>
+	<head>
+	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+	   <title>Edit Donation Entry</title>
+	</head>
+   <body>
+	  <h2>Edit donation entry:</h2>
+	  {% for row in data %}
+      <form action = "/EditInDonation" method = "post">
+         Name:
+	 <input type = "text" name = "name" value="{{ row.donationName }}" />
+	  <br/>
+         Quantity: 
+	 <input type = "text" name = "qty" value="{{ row.quantity }}"/>
+	  <br/>
+         Donator: 
+	 <input type = "text" name = "donator" value="{{ row.donator }}" />
+	  <br/>
+         Date: 
+	 <input type = "text" name = "date" value= "{{ row.date }}" />
+		 <input type = "hidden" name = "id" value="{{ row.donationId }}"/>
+	  <br/>
+         <input type = "submit" value = "Confirm" /><br/>
+	  </form>
+	  {% endfor %}
+	  <a href='/EditInDonation'>Cancel</a>
+	  <br/>
+   </body>
+</html> 

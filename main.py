@@ -19,6 +19,22 @@ def login():
     return render_template('login.html')
 #Recipients page
 @app.route("/recipients", methods=['GET', 'POST'])
+# edit function
+# def edit(locationId):
+#     qry = db_session.query(Album).filter(
+#                 Album.id==id)
+#     album = qry.first()
+#
+#     if album:
+#         form = AlbumForm(formdata=request.form, obj=album)
+#         if request.method == 'POST' and form.validate():
+#             # save edits
+#             save_changes(album, form)
+#             flash('recipient updated!')
+#             return redirect('/')
+#         return render_template('andres.html', form=form)
+#     else:
+#         return 'Error loading #{locationId}'.format(locationId=locationId)
 def recipients_main():
     if request.method == "POST":
         details = request.form

@@ -1,0 +1,55 @@
+<html>
+	<head>
+	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+	   <title>Charity Volunteer Landing</title>
+	</head>
+   <body>
+      <h1>Hello, This is the Donation Recipients Page!</h1>
+	  <h2>Enter a new recipient:</h2>
+      <form action = "/recipients" method = "post">
+          locationId:
+		 <input type = "text" name = "locationId" />
+
+         company:
+		 <input type = "text" name = "company" />
+
+         Address:
+		 <input type = "text" name = "Address" />
+
+		 description:
+    <input type = "text" name = "description" />
+
+         <input type = "submit" value = "Add" /><br/>
+	  </form>
+	  <h2>Current account</h2>
+	  <table border = 1>
+		<tr>
+			<td><b>locationId</b></td>
+			<td><b>company</b></td>
+			<td><b>Address</b></td>
+			<td><b>description</b></td>
+			<td><b>Delete?</b></td>
+			<td><b>Edit?</b></td>
+		</tr>
+		{% for row in data %}
+		<tr>
+			<td>{{ row.locationId }}</td>
+			<td>{{ row.company }}</td>
+			<td>{{ row.Address }}</td>
+			<td>{{ row.description }}</td>
+			<td><form action="/recipients" method="post">
+					<input type="hidden" name="delete" value="{{ row.locationId }}" />
+						<input type="hidden" name="Edit" value="{{ row.locationId }}" />
+					<input type="submit" value="Delete"/>
+				</form>
+				<td>
+					<input type="submit" value="Edit"/>
+				</td>
+			</td>
+		</tr>
+		{% endfor %}
+	  </table>
+	  <br/>
+	  <a href='../'>Logout</a>
+   </body>
+</html>

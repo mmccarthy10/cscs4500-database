@@ -17,6 +17,46 @@ mysql = MySQL(app)
 @app.route("/")
 def login():
     return render_template('login.html')
+<<<<<<< Updated upstream
+=======
+#Recipients page
+@app.route("/recipients", methods=['GET', 'POST'])
+# edit function
+# def edit(locationId):
+#     qry = db_session.query(Album).filter(
+#                 Album.id==id)
+#     album = qry.first()
+#
+#     if album:
+#         form = AlbumForm(formdata=request.form, obj=album)
+#         if request.method == 'POST' and form.validate():
+#             # save edits
+#             save_changes(album, form)
+#             flash('recipient updated!')
+#             return redirect('/')
+#         return render_template('andres.html', form=form)
+#     else:
+#         return 'Error loading #{locationId}'.format(locationId=locationId)
+#
+def recipients_main():
+    if request.method == "POST":
+        details = request.form
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if "delete" in details:
+            cursor.execute('DELETE FROM recipients WHERE locationId="' + details['delete'] + '";')
+        if "company" in details:
+            cursor.execute('INSERT INTO recipients (locationId, company, address, description) VALUES("' + details['locationId'] + '", "' + details['company'] + '", "' + details['Address'] + '","' + details['description'] +'");')
+
+        mysql.connection.commit()
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM recipients;')
+    data = cursor.fetchall()
+
+
+    return render_template('Recipients.html',data=data)
+
+>>>>>>> Stashed changes
 #Andres page
 @app.route("/Accounts", methods=['GET', 'POST'])
 def accounts_main():

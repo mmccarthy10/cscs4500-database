@@ -17,8 +17,6 @@ mysql = MySQL(app)
 @app.route("/")
 def login():
     return render_template('login.html')
-<<<<<<< Updated upstream
-=======
 #Recipients page
 @app.route("/recipients", methods=['GET', 'POST'])
 # edit function
@@ -37,7 +35,6 @@ def login():
 #         return render_template('andres.html', form=form)
 #     else:
 #         return 'Error loading #{locationId}'.format(locationId=locationId)
-#
 def recipients_main():
     if request.method == "POST":
         details = request.form
@@ -56,17 +53,17 @@ def recipients_main():
 
     return render_template('Recipients.html',data=data)
 
->>>>>>> Stashed changes
 #Andres page
-@app.route("/Accounts", methods=['GET', 'POST'])
+@app.route("/accounts", methods=['GET', 'POST'])
 def accounts_main():
     if request.method == "POST":
         details = request.form
 
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        
-        if "name" in details:
-            cursor.execute('INSERT INTO accounts (Name, Password,Email, Address, ID, Type) VALUES("' + details['name'] + '", "' + details['password'] + '","' + details['email'] + '", "' + details['address'] + '", "' + details['ID'] + '", "' + details['Type'] +'");')
+        if "delete" in details:
+            cursor.execute('DELETE FROM accounts WHERE ID ="' + details['delete'] + '";')
+        if "Name" in details:
+            cursor.execute('INSERT INTO accounts (Name, Password,Email, Address, ID, Type) VALUES("' + details['Name'] + '", "' + details['Password'] + '","' + details['Email'] + '", "' + details['Address'] + '", "' + details['ID'] + '", "' + details['Type'] +'");')
 
         mysql.connection.commit()
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)

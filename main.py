@@ -70,7 +70,7 @@ def accounts_main():
     cursor.execute('SELECT * FROM accounts;')
     data = cursor.fetchall()
 
-    return render_template('andres.html', data=data)
+    return render_template('accounts.html', data=data)
 #Carlos page
 @app.route("/carlos")
 def carlos():

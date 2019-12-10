@@ -20,7 +20,7 @@ def login():
     return render_template('login.html')
 
 #Outgoing Donation page by carlos
-@app.route("/outgoing-donation", methods=['GET', 'POST'])
+@app.route("/outgoing-donation-matt", methods=['GET', 'POST'])
 def outgoing_donation():
     if request.method == "POST":
         details = request.form
@@ -40,7 +40,7 @@ def outgoing_donation():
     cursor.execute('SELECT * FROM outgoingOverview;')
     data = cursor.fetchall()
 
-    return render_template('outgoing.html', data=data)
+    return render_template('outgoing-matt.html', data=data)
 
 #Incoming donation page by Carlos
 @app.route("/incoming-donation")

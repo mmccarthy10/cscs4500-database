@@ -3,6 +3,7 @@ from flask import Flask,request,render_template,redirect,url_for
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
+import datetime
 
 # Create MySQL object
 mysql = MySQL()
@@ -84,7 +85,7 @@ def Ben():
     return render_template('ben.html', variable=variable)
 
 #Outgoing Donation page by carlos
-@app.route("/outgoing-donation")
+@app.route("/outgoing-donation", methods=['GET', 'POST'])
 def outgoing_donation():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM donation;')
@@ -93,6 +94,30 @@ def outgoing_donation():
     cursor2.execute('SELECT * FROM Recipients;')
     people = cursor2.fetchall()
     return render_template('outgoing.html', data=data, people=people)
+
+@app.route("/outgoing-donation-matt", methods=['GET', 'POST'])
+def outgoing_donation_matt():
+    if request.method == "POST":
+        details = request.form
+
+        today = str(datetime.datetime.now().year) + "-" + str(datetime.datetime.now().month) + "-" + str(datetime.datetime.now().day)
+        print(today)
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if "delete" in details:
+            cursor.execute('DELETE FROM donation WHERE donationId="' + details['delete'] + '";')
+        if "recipient" in details:
+            cursor.execute('INSERT INTO outgoingOverview (outgoingDate, outgoingRecipient, outgoingSent) VALUES("' + today + '", "' + details['recipient'] + '", 0);')
+        if "donation" in details:
+            cursor.execute('INSERT INTO outgoingDonations VALUES("' + details['donation'] + '", "' + details['item'] + '", "' + details['qty'] + '");')
+
+        mysql.connection.commit()
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM outgoingOverview;')
+    data = cursor.fetchall()
+
+    return render_template('outgoing-matt.html', data=data)
+
+>>>>>>> matt
 #Incoming donation page by Carlos
 @app.route("/incoming-donation")
 def incoming_donation():

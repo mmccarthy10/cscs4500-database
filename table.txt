@@ -92,6 +92,56 @@ CREATE TABLE `recipients` (
 LOCK TABLES `recipients` WRITE;
 /*!40000 ALTER TABLE `recipients` DISABLE KEYS */;
 /*!40000 ALTER TABLE `recipients` ENABLE KEYS */;
+-- Table structure for table `outgoingDonations`
+--
+
+DROP TABLE IF EXISTS `outgoingDonations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outgoingDonations` (
+  `outgoingId` int(11) NOT NULL,
+  `donationId` int(11) NOT NULL,
+  `donationQty` int(11) NOT NULL,
+  KEY `fk1_outgoingDonation` (`outgoingId`),
+  KEY `fk2_outgoingDonation` (`donationId`),
+  CONSTRAINT `fk1_outgoingDonation` FOREIGN KEY (`outgoingId`) REFERENCES `outgoingOverview` (`outgoingId`),
+  CONSTRAINT `fk2_outgoingDonation` FOREIGN KEY (`donationId`) REFERENCES `donation` (`donationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outgoingDonations`
+--
+
+LOCK TABLES `outgoingDonations` WRITE;
+/*!40000 ALTER TABLE `outgoingDonations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outgoingDonations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outgoingOverview`
+--
+
+DROP TABLE IF EXISTS `outgoingOverview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outgoingOverview` (
+  `outgoingId` int(11) NOT NULL AUTO_INCREMENT,
+  `outgoingDate` date DEFAULT NULL,
+  `outgoingRecipient` int(11) DEFAULT NULL,
+  `outgoingSent` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`outgoingId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outgoingOverview`
+--
+
+LOCK TABLES `outgoingOverview` WRITE;
+/*!40000 ALTER TABLE `outgoingOverview` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outgoingOverview` ENABLE KEYS */;
+>>>>>>> matt
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -103,4 +153,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-08 15:57:11
+-- Dump completed on 2019-12-09 20:26:26

@@ -1,5 +1,4 @@
 <html>
-<<<<<<< Updated upstream
 =======
 
 <head>
@@ -10,32 +9,31 @@
 	<p>{{ example }}</p>
 </body>
 
->>>>>>> Stashed changes
 	<head>
 	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
 	   <title>Charity Volunteer Landing</title>
 	</head>
    <body>
-      <h1>Hello, THis is the Acount Table!</h1>
+      <h1>Hello, This is the Acount Table!</h1>
 	  <h2>Enter a new account:</h2>
-      <form action = "/Donation" method = "post">
-          name:
-		 <input type = "text" name = "name" />
+      <form action = "/accounts" method = "post">
+          Name:
+		 <input type = "text" name = "Name" />
 
          Password:
-		 <input type = "text" name = "password" />
+		 <input type = "text" name = "Password" />
 
          Email:
-		 <input type = "text" name = "email" />
+		 <input type = "text" name = "Email" />
 
-		 address:
-    <input type = "text" name = "address" />
+		 Address:
+    <input type = "text" name = "Address" />
 
 		ID:
    <input type = "text" name = "ID" />
 
-	 type:
-  <input type = "text" name = "type" />
+	 Type:
+  <input type = "text" name = "Type" />
 
          <input type = "submit" value = "Add" /><br/>
 	  </form>
@@ -53,13 +51,13 @@
 		{% for row in data %}
 		<tr>
 			<td>{{ row.Name }}</td>
-			<td>{{ row.password }}</td>
+			<td>{{ row.Password }}</td>
 			<td>{{ row.Email }}</td>
-			<td>{{ row.address }}</td>
+			<td>{{ row.Address }}</td>
 			<td>{{ row.ID }}</td>
-			<td>{{ row.type }}</td>
-			<td><form action="/Accounts" method="post">
-					<input type="hidden" name="delete" value="{{ row.AccountsId }}" />
+			<td>{{ row.Type }}</td>
+			<td><form action="/accounts" method="post">
+					<input type="hidden" name="delete" value="{{ row.ID }}" />
 					<input type="submit" value="Delete"/>
 				</form>
 			</td>
@@ -69,4 +67,5 @@
 	  <br/>
 	  <a href='../'>Logout</a>
    </body>
+
 </html>

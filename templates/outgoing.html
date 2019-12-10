@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
+<script src="../static/sorttable.js"></script>
 <div class="card-body">
   <div class="container">
     <h1>This page is for outgoing donations</h1>
@@ -17,15 +18,16 @@
     </br>
     <div class="form-group">
       <h2>Step 2) Select Which Items To Donate</h2>
-      <table class="table">
+      <table class="sortable">
+       <thead>
         <tr>
-          <td><b>Select</b></td>
-          <td><b>Name</b></td>
-          <td><b>Quantity</b></td>
-          <td><b>Donator</b></td>
-
-
+          <th>Select</th>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Donator</th>
         </tr>
+       </thead>
+       <tbody>
         {% for row in data %}
         <tr>
           <td>
@@ -38,6 +40,7 @@
           <td>{{ row.donator }}</td>
         </tr>
         {% endfor %}
+       </tbody>
       </table>
     </div>
     <div class="form-group">

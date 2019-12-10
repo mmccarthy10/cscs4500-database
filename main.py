@@ -17,6 +17,71 @@ mysql = MySQL(app)
 @app.route("/")
 def login():
     return render_template('login.html')
+#Recipients page
+@app.route("/recipients", methods=['GET', 'POST'])
+# edit function
+# def edit(locationId):
+#     qry = db_session.query(Album).filter(
+#                 Album.id==id)
+#     album = qry.first()
+#
+#     if album:
+#         form = AlbumForm(formdata=request.form, obj=album)
+#         if request.method == 'POST' and form.validate():
+#             # save edits
+#             save_changes(album, form)
+#             flash('recipient updated!')
+#             return redirect('/')
+#         return render_template('andres.html', form=form)
+#     else:
+#         return 'Error loading #{locationId}'.format(locationId=locationId)
+def recipients_main():
+    if request.method == "POST":
+        details = request.form
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if "delete" in details:
+            cursor.execute('DELETE FROM recipients WHERE locationId="' + details['delete'] + '";')
+        if "company" in details:
+            cursor.execute('INSERT INTO recipients (locationId, company, address, description) VALUES("' + details['locationId'] + '", "' + details['company'] + '", "' + details['Address'] + '","' + details['description'] +'");')
+
+        mysql.connection.commit()
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM recipients;')
+    data = cursor.fetchall()
+
+
+    return render_template('Recipients.html',data=data)
+
+#Andres page
+@app.route("/accounts", methods=['GET', 'POST'])
+def accounts_main():
+    if request.method == "POST":
+        details = request.form
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if "delete" in details:
+            cursor.execute('DELETE FROM accounts WHERE ID ="' + details['delete'] + '";')
+        if "Name" in details:
+            cursor.execute('INSERT INTO accounts (Name, Password,Email, Address, ID, Type) VALUES("' + details['Name'] + '", "' + details['Password'] + '","' + details['Email'] + '", "' + details['Address'] + '", "' + details['ID'] + '", "' + details['Type'] +'");')
+
+        mysql.connection.commit()
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM accounts;')
+    data = cursor.fetchall()
+
+    return render_template('andres.html', data=data)
+#Carlos page
+@app.route("/carlos")
+def carlos():
+    example = "Hello"
+    return render_template('carlos.html', example=example)
+
+#Ben page
+@app.route("/Ben")
+def Ben():
+    variable = "Hello World!"
+    return render_template('ben.html', variable=variable)
 
 #Outgoing Donation page by carlos
 @app.route("/outgoing-donation")

@@ -1,11 +1,71 @@
-<!DOCTYPE html>
 <html>
+=======
+
 <head>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
-	<title>hello this is andres page </title>
+	<title>hello this is Account page </title>
 </head>
 <body>
-<h1>Andres</h1>
 	<p>{{ example }}</p>
 </body>
+
+	<head>
+	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+	   <title>Charity Volunteer Landing</title>
+	</head>
+   <body>
+      <h1>Hello, This is the Acount Table!</h1>
+	  <h2>Enter a new account:</h2>
+      <form action = "/accounts" method = "post">
+          Name:
+		 <input type = "text" name = "Name" />
+
+         Password:
+		 <input type = "text" name = "Password" />
+
+         Email:
+		 <input type = "text" name = "Email" />
+
+		 Address:
+    <input type = "text" name = "Address" />
+
+		ID:
+   <input type = "text" name = "ID" />
+
+	 Type:
+  <input type = "text" name = "Type" />
+
+         <input type = "submit" value = "Add" /><br/>
+	  </form>
+	  <h2>Current account</h2>
+	  <table border = 1>
+		<tr>
+			<td><b>Name</b></td>
+			<td><b>Password</b></td>
+			<td><b>Email</b></td>
+			<td><b>Address</b></td>
+			<td><b>ID</b></td>
+			<td><b>Type</b></td>
+			<td><b>Delete?</b></td>
+		</tr>
+		{% for row in data %}
+		<tr>
+			<td>{{ row.Name }}</td>
+			<td>{{ row.Password }}</td>
+			<td>{{ row.Email }}</td>
+			<td>{{ row.Address }}</td>
+			<td>{{ row.ID }}</td>
+			<td>{{ row.Type }}</td>
+			<td><form action="/accounts" method="post">
+					<input type="hidden" name="delete" value="{{ row.ID }}" />
+					<input type="submit" value="Delete"/>
+				</form>
+			</td>
+		</tr>
+		{% endfor %}
+	  </table>
+	  <br/>
+	  <a href='../'>Logout</a>
+   </body>
+
 </html>

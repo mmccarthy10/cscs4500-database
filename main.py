@@ -153,11 +153,12 @@ def recipients_info():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         if "delete" in info:
             cursor.execute('DELETE FROM Recipients WHERE RE_NUM="' + info['delete'] + '";')
+            mysql.connection.commit()
         if "name" in info:
-            cursor.execute('INSERT INTO Recipients (RE_NAME, RE_ADDRESS, RE_CITY, RE_STATE, RE_COUNTRY, RE_ZIP, RE_EMAIL, RE_PHONE) VALUES("' + info['name'] + '", "' + info['address'] + '", "' + info['city'] + '", "' + info['state'] + '", " USA", "' + info['zip'] +'", "' + info['email_address'] +'", "' + info['phone'] + '");"')
+            cursor.execute('INSERT INTO Recipients (RE_NAME, RE_ADDRESS, RE_CITY, RE_STATE, RE_COUNTRY, RE_ZIP, RE_EMAIL, RE_PHONE) VALUES("' + info['name'] + '", "' + info['address'] + '", "' + info['city'] + '", "' + info['state'] + '", " USA", "' + info['zip'] +'", "' + info['email_address'] +'", "' + info['phone'] + '");')
+            mysql.connection.commit()
 
 
-        mysql.connection.commit()
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM Recipients;')
     data = cursor.fetchall()

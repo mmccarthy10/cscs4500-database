@@ -1,9 +1,6 @@
-<html>
-	<head>
-	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
-	   <title>Charity Volunteer Landing</title>
-	</head>
-   <body>
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
       <h1>Hello, Matt!</h1>
 	  <h2>Enter a new donation:</h2>
       <form action = "/Donation" method = "post">
@@ -13,10 +10,10 @@
 		 <input type = "text" name = "qty" value="1"/>
          Donator:
 		 <input type = "text" name = "donator" />
-         <input type = "submit" value = "Add" /><br/>
+         <input type = "submit" class="button" value = "Add" /><br/>
 	  </form>
 	  <h2>Current Donations</h2>
-	  <table border = 1>
+	  <table class="table">
 		<tr>
 			<td><b>Item Name</b></td>
 			<td><b>Quantity</b></td>
@@ -46,5 +43,4 @@
 	  </table>
 	  <br/>
 	  <a href='../'>Logout</a>
-   </body>
-</html>
+  {% endblock %}

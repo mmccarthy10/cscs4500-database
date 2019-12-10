@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="card-body">
+  <div class="container">
+    <h1>This page is for outgoing donations</h1>
+    <h2>Step 1) Select or enter Recipients Information</h2>
+    <div class="form-group">
+      <label for="exampleFormControlSelect2">Choose Recipient</label>
+      {% for row in data %}
+      <select multiple class="form-control" id="exampleFormControlSelect2">
+        <option>{{row.RE_NAME}}</option>
+        {% endfor %}
+      </select>
+      <a href={{ url_for('recipients_info') }} class="badge badge-danger">Register Here</a>
+    </div>
+
+    </br>
+    <div class="form-group">
+      <h2>Step 2) Select Which Items To Donate</h2>
+      <table class="table">
+        <tr>
+          <td><b>Select</b></td>
+          <td><b>Name</b></td>
+          <td><b>Quantity</b></td>
+          <td><b>Donator</b></td>
+
+
+        </tr>
+        {% for row in data %}
+        <tr>
+          <td>
+            <form action="/outgoing-donation">
+              <input type="checkbox" name="donation_item"><br>
+            </form>
+          </td>
+          <td>{{ row.donationName }}</td>
+          <td>{{ row.quantity }}</td>
+          <td>{{ row.donator }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="form-group">
+      <h2>Step 3) Donate</h2>
+    </br>
+      <form action="/outgoing_donations">
+        <input type="submit" class="btn btn-primary btn-lg" value="submit">
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

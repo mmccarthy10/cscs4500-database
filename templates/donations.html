@@ -7,10 +7,10 @@
       <h1>Hello, Matt!</h1>
 	  <h2>Enter a new donation:</h2>
       <form action = "/Donation" method = "post">
-         Item Name:
-		 <input type = "text" name = "name" />
+         Name:
+		 <input type = "text" name = "name" placerholder="Enter Name" />
          Quantity:
-		 <input type = "text" name = "qty" />
+		 <input type = "text" name = "qty" value="1"/>
          Donator:
 		 <input type = "text" name = "donator" />
          <input type = "submit" value = "Add" /><br/>
@@ -22,6 +22,7 @@
 			<td><b>Quantity</b></td>
 			<td><b>Donator</b></td>
 			<td><b>Date</b></td>
+			<td><b>Edit?</b></td>
 			<td><b>Delete?</b></td>
 		</tr>
 		{% for row in data %}
@@ -30,6 +31,11 @@
 			<td>{{ row.quantity }}</td>
 			<td>{{ row.donator }}</td>
 			<td>{{ row.date }}</td>
+			<td><form action="/EditInDonation" method="post">
+					<input type="hidden" name="edit" value="{{ row.donationId }}" />
+					<input type="submit" value="Edit"/>
+				</form>
+			</td>
 			<td><form action="/Donation" method="post">
 					<input type="hidden" name="delete" value="{{ row.donationId }}" />
 					<input type="submit" value="Delete"/>

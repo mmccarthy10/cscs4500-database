@@ -1,8 +1,8 @@
--- MySQL dump 10.17  Distrib 10.3.15-MariaDB, for debian-linux-gnueabihf (armv8l)
+-- MySQL dump 10.17  Distrib 10.3.17-MariaDB, for debian-linux-gnueabihf (armv7l)
 --
 -- Host: localhost    Database: Charity
 -- ------------------------------------------------------
--- Server version	10.3.15-MariaDB-1
+-- Server version	10.3.17-MariaDB-0+deb10u1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,10 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-DROP DATABASE IF EXISTS `Charity`;
-CREATE DATABASE `Charity`;
-USE `Charity`;
 
 --
 -- Table structure for table `donation`
@@ -44,6 +40,58 @@ LOCK TABLES `donation` WRITE;
 /*!40000 ALTER TABLE `donation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `donation` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `outgoingDonations`
+--
+
+DROP TABLE IF EXISTS `outgoingDonations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outgoingDonations` (
+  `outgoingId` int(11) NOT NULL,
+  `donationId` int(11) NOT NULL,
+  `donationQty` int(11) NOT NULL,
+  KEY `fk1_outgoingDonation` (`outgoingId`),
+  KEY `fk2_outgoingDonation` (`donationId`),
+  CONSTRAINT `fk1_outgoingDonation` FOREIGN KEY (`outgoingId`) REFERENCES `outgoingOverview` (`outgoingId`),
+  CONSTRAINT `fk2_outgoingDonation` FOREIGN KEY (`donationId`) REFERENCES `donation` (`donationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outgoingDonations`
+--
+
+LOCK TABLES `outgoingDonations` WRITE;
+/*!40000 ALTER TABLE `outgoingDonations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outgoingDonations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `outgoingOverview`
+--
+
+DROP TABLE IF EXISTS `outgoingOverview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `outgoingOverview` (
+  `outgoingId` int(11) NOT NULL AUTO_INCREMENT,
+  `outgoingDate` date DEFAULT NULL,
+  `outgoingRecipient` int(11) DEFAULT NULL,
+  `outgoingSent` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`outgoingId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `outgoingOverview`
+--
+
+LOCK TABLES `outgoingOverview` WRITE;
+/*!40000 ALTER TABLE `outgoingOverview` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outgoingOverview` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -54,4 +102,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-08  1:57:39
+-- Dump completed on 2019-12-09 20:26:26

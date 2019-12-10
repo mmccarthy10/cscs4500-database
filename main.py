@@ -21,8 +21,13 @@ def login():
 #Outgoing Donation page by carlos
 @app.route("/outgoing-donation")
 def outgoing_donation():
-    example = "out"
-    return render_template('outgoing.html', example=example)
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM donation;')
+    data = cursor.fetchall()
+    cursor2 = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor2.execute('SELECT * FROM Recipients;')
+    people = cursor2.fetchall()
+    return render_template('outgoing.html', data=data, people=people)
 #Incoming donation page by Carlos
 @app.route("/incoming-donation")
 def incoming_donation():
@@ -78,21 +83,25 @@ def edit_indonation():
 @app.route("/Recipients", methods=['GET', 'POST'])
 def recipients_info():
     if request.method == "POST":
-        details = request.form
+        info = request.form
 
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        if "delete" in details:
-            cursor.execute('DELETE FROM Recipients WHERE RE_NUM="' + details['delete'] + '";')
-        if "name" in details:
-            cursor.execute('INSERT INTO Recipients (RE_NAME, RE_ADDRESS, RE_CITY, RE_STATE, RE_COUNTRY, RE_ZIP, RE_EMAIL, RE_PHONE) VALUES("' + details['name'] + '", "' + details['address'] + '", "' + details['city'] + '", "' + details['state'] + '", "' + details['country'] + '", "' + details['zip'] +'", "' + details['email_address'] +'", "' + details['phone'] + ';')
+        if "delete" in info:
+            cursor.execute('DELETE FROM Recipients WHERE RE_NUM="' + info['delete'] + '";')
+        if "name" in info:
+            cursor.execute('INSERT INTO Recipients (RE_NAME, RE_ADDRESS, RE_CITY, RE_STATE, RE_COUNTRY, RE_ZIP, RE_EMAIL, RE_PHONE) VALUES("' + info['name'] + '", "' + info['address'] + '", "' + info['city'] + '", "' + info['state'] + '", " USA", "' + info['zip'] +'", "' + info['email_address'] +'", "' + info['phone'] + '");"')
+
 
         mysql.connection.commit()
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM Recipients;')
     data = cursor.fetchall()
 
-    return render_template('recipients.html', data=data)
-
+    return render_template('recipients.html')
+#a landing page for incoming and outgoing donations
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html', title="Dashboard")
 # Run server, visible online and refreshes with new code
 if __name__ == "__main__":
     app.run(debug = True, host="0.0.0.0")

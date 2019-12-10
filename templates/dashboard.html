@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+
+
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">Register Donation</h1>
+    <p class="lead">follow this page to add, edit, and delete any incoming donations</p>
+    <a href={{ url_for('donation_main') }} class="btn btn-primary">Donate Now</a>
+  </div>
+</div>
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">Send to Recipient</h1>
+    <p class="lead">follow this page to select which items to send to a specified recipient</p>
+    <a href={{ url_for('outgoing_donation') }} class="btn btn-primary">Send Now</a>
+  </div>
+</div>
+{% endblock %}

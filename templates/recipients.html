@@ -1,0 +1,79 @@
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+  <title>Recipients</title>
+</head>
+
+<body>
+
+  <h2>Please Enter Recipients Information</h2>
+  <form action="/Donation" method="post">
+    Name:
+    <input type="text" name="name" placerholder="Enter Name" />
+    Address:
+    <input type="text" name="address" />
+    City:
+    <input type="text" name="city" />
+    State:
+    <select name="state">
+      <option value="IL">IL</option>
+      <option value="IN">IN</option>
+      <option value="WI">WI</option>
+    </select>
+    Country:
+    <select name="country">
+      <option value="USA">USA</option>
+    </select>
+    ZIP:
+    <input type="text" name="zip" />
+    Email:
+    <input type="email" name="email_address" />
+    Phone Number:
+    <input type="tel" name="phone" />
+    <input type="submit" value="Add" /><br />
+  </form>
+  <h2>Current Recipients</h2>
+  <table border=1>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Address</b></td>
+      <td><b>City</b></td>
+      <td><b>State</b></td>
+      <td><b>Country</b></td>
+      <td><b>ZIP</b></td>
+      <td><b>Email</b></td>
+      <td><b>Phone Number</b></td>
+      <td><b>Edit?</b></td>
+      <td><b>Delete?</b></td>
+    </tr>
+    {% for row in data %}
+    <tr>
+      <td>{{ row.RE_NAME }}</td>
+      <td>{{ row.RE_ADDRESS }}</td>
+      <td>{{ row.RE_CITY }}</td>
+      <td>{{ row.RE_STATE }}</td>
+      <td>{{ row.RE_COUNTRY }}</td>
+      <td>{{ row.RE_ZIP }}</td>
+      <td>{{ row.RE_EMAIL }}</td>
+      <td>{{ row.RE_PHONE }}</td>
+      <td>
+        <form action="/EditInDonation" method="post">
+          <input type="hidden" name="edit" value="{{ row.donationId }}" />
+          <input type="submit" value="Edit" />
+        </form>
+      </td>
+      <td>
+        <form action="/Donation" method="post">
+          <input type="hidden" name="delete" value="{{ row.donationId }}" />
+          <input type="submit" value="Delete" />
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <br />
+  <a href='../'>Logout</a>
+</body>
+
+</html>

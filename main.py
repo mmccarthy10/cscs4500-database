@@ -74,6 +74,24 @@ def edit_indonation():
             return redirect(url_for("donation_main"))
 
     return redirect(url_for("donation_main"))
+#Enter Recipients info for outgoing Donations -- Carlos
+@app.route("/Recipients", methods=['GET', 'POST'])
+def recipients_info():
+    if request.method == "POST":
+        details = request.form
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if "delete" in details:
+            cursor.execute('DELETE FROM Recipients WHERE RE_NUM="' + details['delete'] + '";')
+        if "name" in details:
+            cursor.execute('INSERT INTO Recipients (RE_NAME, RE_ADDRESS, RE_CITY, RE_STATE, RE_COUNTRY, RE_ZIP, RE_EMAIL, RE_PHONE) VALUES("' + details['name'] + '", "' + details['address'] + '", "' + details['city'] + '", "' + details['state'] + '", "' + details['country'] + '", "' + details['zip'] +'", "' + details['email_address'] +'", "' + details['phone'] + ';')
+
+        mysql.connection.commit()
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM Recipients;')
+    data = cursor.fetchall()
+
+    return render_template('recipients.html', data=data)
 
 # Run server, visible online and refreshes with new code
 if __name__ == "__main__":

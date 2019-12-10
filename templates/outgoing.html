@@ -1,10 +1,61 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <<h1>This page is for outgoing donations</h1>
-  </body>
-</html>
+<html>
+	<head>
+	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+	   <title>Charity Volunteer Outgoing</title>
+	</head>
+   <body>
+	  <h2>Start a new outgoing donation:</h2>
+      <form action = "/outgoing-donation" method = "post">
+         Recipient:
+		 <input type = "text" name = "recipient"  />
+         <input type = "submit" value = "Add" /><br/>
+	  </form>
+	  <h2>Or, add to an existing donation:</h2>
+      <form action = "/outgoing-donation" method = "post">
+         Donation:
+		 <input type = "text" name = "donation"  />
+         Item: 
+		 <input type = "text" name = "item" />
+         Quantity: 
+		 <input type = "text" name = "qty" value="1" />
+         <input type = "submit" value = "Add" /><br/>
+	  </form>
+	  <h2>Current Donations</h2>
+	  <table border = 1>
+		<tr>
+			<td><b>Recipient</b></td>
+			<td><b>Date</b></td>
+			<td><b>Item</b></td>
+			<td><b>Quantity</b></td>
+			<td><b>Edit?</b></td>
+			<td><b>Send?</b></td>
+			<td><b>Delete?</b></td>
+		</tr>
+		{% for row in data %}
+		<tr>
+			<td>{{ row.outgoingRecipient}}</td>
+			<td>{{ row.outgoingDate}}</td>
+			<td>{{ row.donator }}</td>
+			<td>{{ row.date }}</td>
+			<td><form action="/AddOutDonation" method="post">
+					<input type="hidden" name="edit" value="{{ row.outgoingId }}" />
+					<input type="submit" value="Edit"/>
+				</form>
+			</td>
+			<td><form action="/outgoing-donation" method="post">
+					<input type="hidden" name="delete" value="{{ row.outgoingId}}" />
+					<input type="submit" value="Send"/>
+				</form>
+			</td>
+			<td><form action="/outgoing-donation" method="post">
+					<input type="hidden" name="delete" value="{{ row.outgoingId}}" />
+					<input type="submit" value="Delete"/>
+				</form>
+			</td>
+		</tr>
+		{% endfor %}
+	  </table>
+	  <br/>
+	  <a href='../'>Logout</a>
+   </body>
+</html> 

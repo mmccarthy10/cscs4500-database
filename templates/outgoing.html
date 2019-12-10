@@ -6,11 +6,11 @@
     <h2>Step 1) Select or enter Recipients Information</h2>
     <div class="form-group">
       <label for="exampleFormControlSelect2">Choose Recipient</label>
-      {% for row in data %}
-      <select multiple class="form-control" id="exampleFormControlSelect2">
-        <option>{{row.RE_NAME}}</option>
-        {% endfor %}
+      {% for row in people %}
+      <select multiple class="form-control" class="form-control form-control-lg">
+        <option> {{row.RE_NAME}} </option>
       </select>
+      {% endfor %}
       <a href={{ url_for('recipients_info') }} class="badge badge-danger">Register Here</a>
     </div>
 

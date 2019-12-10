@@ -1,55 +1,87 @@
-<html>
-	<head>
-	   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
-	   <title>Charity Volunteer Landing</title>
-	</head>
-   <body>
-      <h1>Hello, This is the Donation Recipients Page!!</h1>
-	  <h2>Enter a new recipient:</h2>
-      <form action = "/recipients" method = "post">
-          locationId:
-		 <input type = "text" name = "locationId" />
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto">
+      <div class="jumbotron">
+        <div class="row text-center">
+          <div class="text-center col-12">
+            <h2>Please Enter Recipients Information</h2>
+            <form action="/Recipients" method="post">
+              <label for="name"> Name</label>
+              <input type="text" class="form-control" name="name" placerholder="Enter Name" />
+              <label for="Address"> Address </label>
+              <input type="text" class="form-control" name="address" />
+              <label for="City">City</label>:
+              <input type="text" class="form-control" name="city" />
+              <label for="state">State</label>::
+              <select class="custom-select custom-select-sm" name="state">
+                <option value="IL">IL</option>
+                <option value="IN">IN</option>
+                <option value="WI">WI</option>
+              </select>
+              <label for="country">Country</label>
+              <select name="country" class="custom-select custom-select-sm">
+                <option value="USA">USA</option>
+              </select>
+              <label for="zip">ZIP Code</label>
+              <input type="text" class="form-control" name="zip" />
+              <label for="email_address">Email</label>
+              <input type="email" class="form-control" name="email_address" />
+              <label for="phone">Phone Number</label>
+              <input type="text" class="form-control" name="phone" />
+              </br>
+              <input type="submit" class="btn btn-primary btn-lg btn-block" value="Add" /><br />
+            </form>
+            <!--
+            <h2>Current Recipients</h2>
+            <table class="table">
+              <tr>
+                <td><b>Name</b></td>
+                <td><b>Address</b></td>
+                <td><b>City</b></td>
+                <td><b>State</b></td>
+                <td><b>Country</b></td>
+                <td><b>ZIP</b></td>
+                <td><b>Email</b></td>
+                <td><b>Phone Number</b></td>
+                <td><b>Edit?</b></td>
+                <td><b>Delete?</b></td>
+              </tr>
+              {% for row in data %}
+              <tr>
+                <td>{{ row.RE_NAME }}</td>
+                <td>{{ row.RE_ADDRESS }}</td>
+                <td>{{ row.RE_CITY }}</td>
+                <td>{{ row.RE_STATE }}</td>
+                <td>{{ row.RE_COUNTRY }}</td>
+                <td>{{ row.RE_ZIP }}</td>
+                <td>{{ row.RE_EMAIL }}</td>
+                <td>{{ row.RE_PHONE }}</td>
+                <td>
 
-         company:
-		 <input type = "text" name = "company" />
-
-         Address:
-		 <input type = "text" name = "Address" />
-
-		 description:
-    <input type = "text" name = "description" />
-
-         <input type = "submit" value = "Add" /><br/>
-	  </form>
-	  <h2>Current account</h2>
-	  <table border = 1>
-		<tr>
-			<td><b>locationId</b></td>
-			<td><b>company</b></td>
-			<td><b>Address</b></td>
-			<td><b>description</b></td>
-			<td><b>Delete?</b></td>
-			<td><b>Edit?</b></td>
-		</tr>
-		{% for row in data %}
-		<tr>
-			<td>{{ row.locationId }}</td>
-			<td>{{ row.company }}</td>
-			<td>{{ row.Address }}</td>
-			<td>{{ row.description }}</td>
-			<td><form action="/recipients" method="post">
-					<input type="hidden" name="delete" value="{{ row.locationId }}" />
-						<input type="hidden" name="Edit" value="{{ row.locationId }}" />
-					<input type="submit" value="Delete"/>
-				</form>
-				<td>
-					<input type="submit" value="Edit"/>
-				</td>
-			</td>
-		</tr>
-		{% endfor %}
-	  </table>
-	  <br/>
-	  <a href='../'>Logout</a>
-   </body>
-</html>
+         <form action="/EditInDonation" method="post">
+          <input type="hidden" name="edit" value="{{ row.donationId }}" />
+          <input type="submit" value="Edit" />
+        </form>
+      
+            </td>
+            <td>
+              <form action="/Recipients" method="post">
+                <input type="hidden" name="delete" value="{{ row.RE_NUM }}" />
+                <input type="submit" value="Delete" />
+              </form>
+            </td>
+            </tr>
+            {% endfor %}
+            </table>
+            -->
+            <br />
+            <a href='../outgoing-donation'>Return</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

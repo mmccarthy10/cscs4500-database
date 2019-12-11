@@ -44,6 +44,15 @@ def login():
             msg = 'Incorrect username/password!'
     # Show the login form with message (if any)
     return render_template('login.html', msg=msg)
+@app.route('/logout')
+def logout():
+    # Remove session data, this will log the user out
+   session.pop('loggedin', None)
+   session.pop('ID', None)
+   session.pop('Email', None)
+   # Redirect to login page
+   return redirect(url_for('login'))
+
 #Recipients page
 @app.route("/recipients", methods=['GET', 'POST'])
 # edit function
@@ -143,11 +152,6 @@ def outgoing_donation_matt():
 
     return render_template('outgoing-matt.html', data=data)
 
-#Incoming donation page by Carlos
-@app.route("/incoming-donation")
-def incoming_donation():
-    example = "in"
-    return render_template('incoming.html', example=example)
 # Main donation landing page, reads and writes data to donation table
 @app.route("/Donation", methods=['GET', 'POST'])
 def donation_main():

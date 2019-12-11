@@ -6,7 +6,7 @@
   	-moz-osx-font-smoothing: grayscale;
 }
 body {
-  	background-color: #435165;
+  	background-color: #343A40;
   	margin: 0;
 }
 .login, .register {
@@ -37,8 +37,8 @@ body {
   	color: #9da3ac;
 }
 .login .links a.active, .register .links a.active {
-  	border-bottom: 3px solid #3274d6;
-  	color: #3274d6;
+  	border-bottom: 3px solid #007BFF;
+  	color: #007BFF;
 }
 .login form, .register form {
   	display: flex;
@@ -52,7 +52,7 @@ body {
   	align-items: center;
   	width: 50px;
   	height: 50px;
-  	background-color: #3274d6;
+  	background-color: #007BFF;
   	color: #ffffff;
 }
 .login form input[type="password"], .login form input[type="text"], .login form input[type="email"], .register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
@@ -66,7 +66,7 @@ body {
   	width: 100%;
   	padding: 15px;
   	margin-top: 20px;
-  	background-color: #3274d6;
+  	background-color: #007BFF;
   	border: 0;
   	cursor: pointer;
   	font-weight: bold;

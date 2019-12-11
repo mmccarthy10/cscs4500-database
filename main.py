@@ -117,7 +117,6 @@ def outgoing_donation_matt():
 
     return render_template('outgoing-matt.html', data=data)
 
->>>>>>> matt
 #Incoming donation page by Carlos
 @app.route("/incoming-donation")
 def incoming_donation():

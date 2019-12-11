@@ -162,7 +162,7 @@ def donation_main():
         if "delete" in details:
             cursor.execute('DELETE FROM donation WHERE donationId="' + details['delete'] + '";')
         if "name" in details:
-            cursor.execute('INSERT INTO donation (donationName, quantity, donator, date) VALUES("' + details['name'] + '", "' + details['qty'] + '", "' + details['donator'] + '", "2019-10-22");')
+            cursor.execute('INSERT INTO donation (donationName, quantity, donator, date) VALUES("' + details['name'] + '", "' + details['qty'] + '", "' + details['donator'] + '", "2019-12-11");')
 
         mysql.connection.commit()
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)

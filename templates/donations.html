@@ -1,44 +1,63 @@
 {% extends "base.html" %}
 {% block title %}Donations{% endblock %}
 {% block body %}
-      <h1>Hello, Matt!</h1>
-	  <h2>Enter a new donation:</h2>
-      <form action = "/Donation" method = "post">
-         Name:
-		 <input type = "text" name = "name" placerholder="Enter Name" />
-         Quantity:
-		 <input type = "text" name = "qty" value="1"/>
-         Donator:
-		 <input type = "text" name = "donator" />
-         <input type = "submit" class="button" value = "Add" /><br/>
-	  </form>
-	  <h2>Current Donations</h2>
-	  <table class="table">
-		<tr>
-			<td><b>Item Name</b></td>
-			<td><b>Quantity</b></td>
-			<td><b>Donator</b></td>
-			<td><b>Date</b></td>
-			<td><b>Edit?</b></td>
-			<td><b>Delete?</b></td>
-		</tr>
-		{% for row in data %}
-		<tr>
-			<td>{{ row.donationName }}</td>
-			<td>{{ row.quantity }}</td>
-			<td>{{ row.donator }}</td>
-			<td>{{ row.date }}</td>
-			<td><form action="/EditInDonation" method="post">
-					<input type="hidden" name="edit" value="{{ row.donationId }}" />
-					<input type="submit" value="Edit"/>
-				</form>
-			</td>
-			<td><form action="/Donation" method="post">
-					<input type="hidden" name="delete" value="{{ row.donationId }}" />
-					<input type="submit" value="Delete"/>
-				</form>
-			</td>
-		</tr>
-		{% endfor %}
-	  </table>
-  {% endblock %}
+
+<h2>Enter a new donation:</h2>
+<form action="/Donation" method="post">
+  <div class="row">
+
+    <div class="col">
+    <label for="name">Item</label>
+      <input type="text" name="name" placerholder="Enter Name" class="form-control" />
+    </div>
+
+    <div class="col">
+    <label for="qty">Quantity</label>
+      <input type="text" name="qty" value="1" class="form-control" />
+    </div>
+    <div class="col">
+
+    <label for="donator">Donator</label>
+      <input type="text" name="donator" class="form-control" />
+    </div>
+    <div class="col">
+      <label for=""></label><br>
+      <input type="submit" class="btn btn-secondary" value="Add" />
+    </div>
+  </div>
+</form>
+<div class="container">
+<br>
+</div>
+<h2>Current Donations</h2>
+<table class="table">
+  <tr>
+    <td><b>Item Name</b></td>
+    <td><b>Quantity</b></td>
+    <td><b>Donator</b></td>
+    <td><b>Date</b></td>
+    <td><b>Edit?</b></td>
+    <td><b>Delete?</b></td>
+  </tr>
+  {% for row in data %}
+  <tr>
+    <td>{{ row.donationName }}</td>
+    <td>{{ row.quantity }}</td>
+    <td>{{ row.donator }}</td>
+    <td>{{ row.date }}</td>
+    <td>
+      <form action="/EditInDonation" method="post">
+        <input type="hidden" name="edit" value="{{ row.donationId }}" />
+        <input type="submit" value="Edit" />
+      </form>
+    </td>
+    <td>
+      <form action="/Donation" method="post">
+        <input type="hidden" name="delete" value="{{ row.donationId }}" />
+        <input type="submit" value="Delete" />
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

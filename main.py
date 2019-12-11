@@ -122,13 +122,62 @@ def Ben():
 #Outgoing Donation page by carlos
 @app.route("/outgoing-donation", methods=['GET', 'POST'])
 def outgoing_donation():
+    if request.method == "POST":
+        details = request.form
+
+        today = str(datetime.datetime.now().year) + "-" + str(datetime.datetime.now().month) + "-" + str(datetime.datetime.now().day)
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if "delete" in details:
+            cursor.execute('DELETE FROM outgoingOverview WHERE outgoingId="' + details['delete'] + '";')
+        if "recipient" in details:
+            print("New Donation")
+            cursor.execute('INSERT INTO outgoingOverview (outgoingDate, outgoingRecipient, outgoingSent) VALUES("' + today + '", "' + details['recipient'] + '", 0);')
+        if "outgoingId" in details:
+            cursor.execute('INSERT INTO outgoingDonations VALUES("' + details['outgoingId'] + '", "' + details['donationItem'] + '", "' + details['qty'] + '");')
+        mysql.connection.commit()
+
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM donation;')
     data = cursor.fetchall()
     cursor2 = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor2.execute('SELECT * FROM Recipients;')
     people = cursor2.fetchall()
-    return render_template('outgoing.html', data=data, people=people)
+    cursor.execute('SELECT outgoingId, outgoingDate, RE_NAME FROM outgoingOverview NATURAL JOIN Recipients;')
+
+    donation = cursor.fetchall()
+    cursor.execute('SELECT RE_NAME, outgoingDate, outgoingId FROM outgoingOverview NATURAL JOIN Recipients WHERE outgoingOverview.outgoingRecipient=Recipients.RE_NUM;')
+    overview = cursor.fetchall()
+    return render_template('outgoing.html', data=data, people=people, donation=donation, overview=overview)
+
+@app.route("/outgoing-donation-details", methods=['GET', 'POST'])
+def outgoing_donation_details():
+    
+    if request.method == "POST":
+        details = request.form
+
+        # Populate edit with details
+        if "edit" in details:
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            if "donationItem" in details:
+                print('INSERT INTO outgoingDonation VALUES(' + details['edit'] + ', ' + details['donationItem'] + ', ' + details['qty']);
+                cursor.execute('INSERT INTO outgoingDonations VALUES(' + details['edit'] + ', ' + details['donationItem'] + ', ' + details['qty'] + ')');
+                mysql.connection.commit();
+
+            print(details['edit'])
+            cursor.execute('SELECT outgoingId, outgoingDate, RE_NAME FROM outgoingOverview NATURAL JOIN Recipients WHERE outgoingId= ' + details['edit'] + ' AND outgoingOverview.outgoingRecipient=Recipients.RE_NUM;;')
+            overview = cursor.fetchall()
+            cursor.execute('SELECT donationName, donationQty FROM donation NATURAL JOIN outgoingDonations WHERE outgoingDonations.outgoingId=' + details['edit'] + ';')
+            donations = cursor.fetchall()
+
+            cursor.execute('SELECT donationName, donationId FROM donation;')
+            data = cursor.fetchall()
+            return render_template('outgoing-details.html', overview=overview, donations=donations, data=data)
+
+        # Redirect to main page if no entry picked
+        else:
+            return redirect(url_for("outgoing_donation"))
+        
+        return redirect(url_for("outgoing_donation"))
 
 @app.route("/outgoing-donation-matt", methods=['GET', 'POST'])
 def outgoing_donation_matt():

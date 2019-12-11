@@ -4,51 +4,77 @@
 <script src="../static/sorttable.js"></script>
 <div class="card-body">
   <div class="container">
-    <h1>This page is for outgoing donations</h1>
-    <h2>Step 1) Select or enter Recipients Information</h2>
+    <h1>Outgoing Donations</h1>
+    <h2>Start an outgoing donation</h2>
     <div class="form-group">
       <label for="exampleFormControlSelect2">Choose Recipient</label>
+      <form action="/outgoing-donation" method = "post" id='newDonation'>
+      <select name="recipient" class="custom-select custom-select-sm" id="exampleFormControlSelect2">
       {% for row in people %}
-      <select  class="custom-select custom-select-sm" id="exampleFormControlSelect2">
-        <option value={{row.RE_NAME}} SELECTED>  {{row.RE_NAME}} </option>
-      </select>
+        <option value={{row.RE_NUM}} SELECTED>  {{row.RE_NAME}} </option>
       {% endfor %}
-      <a href={{ url_for('recipients_info') }} class="badge badge-danger">Register Here</a>
+      </select><br/>
+      <input type = "submit" value="Start Donation"/>
+      </form>
+      <a href={{ url_for('recipients_info') }} class="badge badge-danger">Register New Recipient</a>
     </div>
 
     </br>
     <div class="form-group">
-      <h2>Step 2) Select Which Items To Donate</h2>
-      <table class="sortable">
-       <thead>
-        <tr>
-          <th>Select</th>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Donator</th>
-        </tr>
-       </thead>
-       <tbody>
-        {% for row in data %}
-        <tr>
-          <td>
-            <form action="/outgoing-donation">
-              <input type="checkbox" name="donation_item"><br>
-            </form>
-          </td>
-          <td>{{ row.donationName }}</td>
-          <td>{{ row.quantity }}</td>
-          <td>{{ row.donator }}</td>
-        </tr>
-        {% endfor %}
-       </tbody>
-      </table>
+      <h2>Add items to active donation</h2>
+      <form action = "/outgoing-donation" method = "post">
+         Donation:
+         <select name="outgoingId" class="custom-select custom-select-sm" id="exampleFormControlSelect2">
+          {% for row in donation %}
+            <option value={{row.outgoingId}} SELECTED>  {{row.RE_NAME}} - {{ row.outgoingDate }} </option>
+          {% endfor %}
+          </select>
+        Item: 
+        <select name="donationItem" class="custom-select custom-select-sm" id="exampleFormControlSelect2">
+         {% for row in data %}
+           <option value={{row.donationId}} SELECTED>  {{row.donationName}}</option>
+         {% endfor %}
+         </select>
+         Quantity: 
+		 <input type = "text" name = "qty" value="1" />
+         <input type = "submit" value = "Add" /><br/>
+	  </form>
     </div>
     <div class="form-group">
-      <h2>Step 3) Donate</h2>
+      <h2>Active outgoing donations</h2>
+      <table class="table">
+        <tr>
+          <td><b>Recipient</b></td>
+          <td><b>Date</b></td>
+          <td><b>Edit?</b></td>
+          <td><b>Send?</b></td>
+          <td><b>Delete?</b></td>
+        </tr>
+        {% for row in overview %}
+        <tr>
+          <td>{{ row.RE_NAME}}</td>
+          <td>{{ row.outgoingDate}}</td>
+          <td><form action="/outgoing-donation-details" method="post">
+              <input type="hidden" name="edit" value="{{ row.outgoingId }}" />
+              <input type="submit" value="Edit"/>
+            </form>
+          </td>
+          <td><form action="/outgoing-donation" method="post">
+              <input type="hidden" name="delete" value="{{ row.outgoingId}}" />
+              <input type="submit" value="Send"/>
+            </form>
+          </td>
+          <td><form action="/outgoing-donation" method="post">
+              <input type="hidden" name="delete" value="{{ row.outgoingId}}" />
+              <input type="submit" value="Delete"/>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        </table>
     </br>
-      <form action="/outgoing_donations">
-        <input type="submit" class="btn btn-primary btn-lg" value="submit">
+      <form action="/outgoing_history">
+        <input type="submit" class="btn btn-primary btn-lg" value="History">
       </form>
     </div>
   </div>

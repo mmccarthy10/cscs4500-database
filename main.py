@@ -87,11 +87,26 @@ def Ben():
 #Outgoing Donation page by carlos
 @app.route("/outgoing-donation", methods=['GET', 'POST'])
 def outgoing_donation():
+    if request.method == "POST":
+        details = request.form
+
+        today = str(datetime.datetime.now().year) + "-" + str(datetime.datetime.now().month) + "-" + str(datetime.datetime.now().day)
+        print(today)
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if "delete" in details:
+            cursor.execute('DELETE FROM donation WHERE donationId="' + details['delete'] + '";')
+        if "recipient" in details:
+            print("New Donation")
+            cursor.execute('INSERT INTO outgoingOverview (outgoingDate, outgoingRecipient, outgoingSent) VALUES("' + today + '", "' + details['recipient'] + '", 0);')
+        if "donation" in details:
+            cursor.execute('INSERT INTO outgoingDonations VALUES("' + details['donation'] + '", "' + details['item'] + '", "' + details['qty'] + '");')
+        mysql.connection.commit()
+
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('SELECT * FROM donation;')
     data = cursor.fetchall()
     cursor2 = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor2.execute('SELECT * FROM Recipients;')
+    cursor2.execute('SELECT outgoingRecipient;')
     people = cursor2.fetchall()
     return render_template('outgoing.html', data=data, people=people)
 

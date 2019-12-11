@@ -1,5 +1,5 @@
 # Import files
-from flask import Flask,request,render_template,redirect,url_for
+from flask import Flask,request,render_template,redirect,url_for,session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
@@ -8,6 +8,8 @@ import datetime
 # Create MySQL object
 mysql = MySQL()
 app = Flask(__name__)
+app.secret_key = 'your secret key'
+
 app.config['MYSQL_USER'] = 'csc4500'
 app.config['MYSQL_PASSWORD'] = 'charitydb'
 app.config['MYSQL_DB'] = 'Charity'
@@ -15,9 +17,33 @@ app.config['MYSQL_HOST'] = 'localhost'
 mysql = MySQL(app)
 
 # Login page
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    # Output message if something goes wrong...
+    msg = ''
+    # Check if "username" and "password" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'Email' in request.form and 'Password' in request.form:
+        # Create variables for easy access
+        Email = request.form['Email']
+        Password = request.form['Password']
+        # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE Email = %s AND Password = %s', (Email, Password))
+        # Fetch one record and return result
+        account = cursor.fetchone()
+        # If account exists in accounts table in out database
+        if account:
+            # Create session data, we can access this data in other routes
+            session['loggedin'] = True
+            session['ID'] = account['ID']
+            session['Email'] = account['Email']
+            # Redirect to home page
+            return redirect(url_for('dashboard'))
+        else:
+            # Account doesnt exist or username/password incorrect
+            msg = 'Incorrect username/password!'
+    # Show the login form with message (if any)
+    return render_template('login.html', msg=msg)
 #Recipients page
 @app.route("/recipients", methods=['GET', 'POST'])
 # edit function
@@ -191,7 +217,12 @@ def recipients_info():
 #a landing page for incoming and outgoing donations
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html', title="Dashboard")
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        return render_template('dashboard.html', email=session['Email'])
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
 # Run server, visible online and refreshes with new code
 if __name__ == "__main__":
     app.run(debug = True, host="0.0.0.0")

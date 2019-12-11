@@ -3,7 +3,7 @@
 <script src="../static/sorttable.js"></script>
 <div class="card-body">
   <div class="container">
-    <h1>This page is for outgoing donations</h1>
+    <h1>Outgoing Donations</h1>
     <h2>Start an outgoing donation</h2>
     <div class="form-group">
       <label for="exampleFormControlSelect2">Choose Recipient</label>
@@ -23,9 +23,17 @@
       <h2>Add items to active donation</h2>
       <form action = "/outgoing-donation" method = "post">
          Donation:
-		 <input type = "text" name = "donation"  />
-         Item: 
-		 <input type = "text" name = "item" />
+         <select name="outgoingId" class="custom-select custom-select-sm" id="exampleFormControlSelect2">
+          {% for row in donation %}
+            <option value={{row.outgoingId}} SELECTED>  {{row.RE_NAME}} - {{ row.outgoingDate }} </option>
+          {% endfor %}
+          </select>
+        Item: 
+        <select name="donationItem" class="custom-select custom-select-sm" id="exampleFormControlSelect2">
+         {% for row in data %}
+           <option value={{row.donationId}} SELECTED>  {{row.donationName}}</option>
+         {% endfor %}
+         </select>
          Quantity: 
 		 <input type = "text" name = "qty" value="1" />
          <input type = "submit" value = "Add" /><br/>
@@ -37,19 +45,15 @@
         <tr>
           <td><b>Recipient</b></td>
           <td><b>Date</b></td>
-          <td><b>Item</b></td>
-          <td><b>Quantity</b></td>
           <td><b>Edit?</b></td>
           <td><b>Send?</b></td>
           <td><b>Delete?</b></td>
         </tr>
-        {% for row in data %}
+        {% for row in overview %}
         <tr>
-          <td>{{ row.outgoingRecipient}}</td>
+          <td>{{ row.RE_NAME}}</td>
           <td>{{ row.outgoingDate}}</td>
-          <td>{{ row.donator }}</td>
-          <td>{{ row.date }}</td>
-          <td><form action="/AddOutDonation" method="post">
+          <td><form action="/outgoing-donation-details" method="post">
               <input type="hidden" name="edit" value="{{ row.outgoingId }}" />
               <input type="submit" value="Edit"/>
             </form>
@@ -68,8 +72,8 @@
         {% endfor %}
         </table>
     </br>
-      <form action="/outgoing_donations">
-        <input type="submit" class="btn btn-primary btn-lg" value="submit">
+      <form action="/outgoing_history">
+        <input type="submit" class="btn btn-primary btn-lg" value="History">
       </form>
     </div>
   </div>

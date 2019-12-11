@@ -7,8 +7,8 @@
     <div class="form-group">
       <label for="exampleFormControlSelect2">Choose Recipient</label>
       {% for row in people %}
-      <select  class="selectpicker form-control" id="exampleFormControlSelect2">
-        <option value={{row.RE_NAME}} >  {{row.RE_NAME}} </option>
+      <select  class="custom-select custom-select-sm" id="exampleFormControlSelect2">
+        <option value={{row.RE_NAME}} SELECTED>  {{row.RE_NAME}} </option>
       </select>
       {% endfor %}
       <a href={{ url_for('recipients_info') }} class="badge badge-danger">Register Here</a>
